@@ -1,0 +1,68 @@
+<div class="admin-page" style="color: black;">
+    <div class="edit-component">
+        <form [formGroup]="miFormulario" (ngSubmit)="onSubmit()">
+            <div>
+              <label> Nombre:
+                <input formControlName="nombre" placeholder="Nombre de la receta">
+              </label>
+            </div>
+            <div>
+              <label> Descripción:
+                <input formControlName="description" placeholder="Descripción">
+              </label>
+            </div>
+            <div>
+              <label> Imagen:
+                <input formControlName="imagePath" placeholder="Url imagen">
+              </label>
+            </div>
+            <div>
+            <label> ID:
+                <input formControlName="_id" placeholder="id" readonly>
+            </label>
+            </div>
+            <button type="submit">Enviar</button>
+          </form>
+    </div>
+    <div class="play-list-body">
+        <ul class="play-list-table-header">
+            <li>Imagen</li>
+            <li>Nombre</li>
+            <li>Descripcion</li>
+            <li>Editar/Eliminar</li>
+        </ul>
+        <ul class="play-list-rows" *ngFor="let recipe of listResults">
+            <li class="recipe-name">
+                <ng-container *ngTemplateOutlet="coverSection;context:{recipe:recipe}"></ng-container>
+            </li>
+            <li class="recipe-name-opacity">
+                <ng-container *ngTemplateOutlet="buttonSection;context:{recipe:recipe}"></ng-container>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<!--template del cover-->
+<ng-template #coverSection let-recipe="recipe">
+
+    <div class="cover-section">
+        <img appImgBroken [customImg]="'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png'" class="cover-recipe" [src]="recipe.imagePath" [alt]="recipe.name">
+        <div class="cover-info">
+            <div class="name-recipe">{{recipe.name}}</div>
+            <div class="name-recipe-details">{{recipe.descripcion}}</div>
+        </div>
+    </div>
+
+</ng-template>
+
+<ng-template #buttonSection let-recipe="recipe">
+
+    <div class="button-section">
+        <button (click)="editarReceta(recipe)">Editar</button>
+    </div>
+    <div class="button-section">
+      <button (click)="deleteRecipe(recipe)">Eliminar</button>
+  </div>
+
+</ng-template>
