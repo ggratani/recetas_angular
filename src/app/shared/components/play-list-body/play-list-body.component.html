@@ -1,0 +1,12 @@
+<div class="play-list-body">
+    <ul class="play-list-table-header">
+        <li>Nombre ❤</li>
+        <li><i class="uil uil-clock-eight"></i></li>
+    </ul>
+    <ul class="play-list-rows" *ngFor="let recipe of recipes | filterList">
+        <li class="recipe-name-opacity">
+            {{recipe.name}}
+        </li>
+    </ul>
+</div>
+

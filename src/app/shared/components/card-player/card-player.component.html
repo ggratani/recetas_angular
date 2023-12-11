@@ -1,0 +1,10 @@
+<!-- Diseño del mode (small)-->
+<div class="card-wrapper">
+    <div *ngIf="mode==='small'" class="card-player player-small">
+        <img appImgBroken [customImg]="'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png'" [src]="recipe.imagePath" [alt]="recipe.name" class="img">
+        <div class="content-player" (click)="mostrarDetalle(recipe)">
+            {{recipe.name}}
+        </div>
+    </div>
+</div>
+

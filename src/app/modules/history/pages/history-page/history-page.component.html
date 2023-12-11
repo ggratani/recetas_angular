@@ -1,0 +1,6 @@
+<div class="history-page">
+    <app-search (callbackData)="receiveData($event)"></app-search>
+    <div class="recipes-page">
+        <app-section-generic style="color: black;" [dataRecipes]="listResults" [mode]="'small'"></app-section-generic>
+    </div>
+</div>
