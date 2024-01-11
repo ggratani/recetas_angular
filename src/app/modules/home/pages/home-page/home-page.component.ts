@@ -8,7 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent {
-  constructor(private cookie: CookieService, private router: Router) {}
+  userName : string = ""
+  
+  constructor(private cookie: CookieService, private router: Router) {
+    this.userName = this.cookie.get('userName')
+
+  }
   logout(): void {
     
     this.cookie.deleteAll();

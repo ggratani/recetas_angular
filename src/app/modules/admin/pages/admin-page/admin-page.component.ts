@@ -31,26 +31,50 @@ export class AdminPageComponent implements OnInit, OnDestroy{
           Validators.required,
           Validators.minLength(6)
         ]),
-        description: new FormControl(''),
+        description: new FormControl('', [
+          Validators.required,
+          Validators.minLength(10)
+        ]),
         imagePath: new FormControl(''),
+        ingredientes: new FormControl('', [
+          Validators.required,
+          Validators.minLength(6)
+        ]),
         _id: new FormControl(''),
       }
     )
   }
 
-  onSubmit() {
-    console.log(this.miFormulario.value);
-    if (this.showEditFields !== true){
-      this.agregarRecipe()
-    } 
-    else {
-      this.enviarEdicion()
-    }
-    this.miFormulario.reset();
+  // Método para acceder a los campos del formulario
+  get f() {
+    return this.miFormulario.controls;
   }
 
-  async loadDataAll(): Promise<any> {
-    this.listResults = await this.recipeService.getAllRecipes$().toPromise()
+  onSubmit() {
+    if (this.miFormulario.valid) {
+      console.log(this.miFormulario.value);
+      if (this.showEditFields !== true){
+        this.agregarRecipe()
+      } 
+      else {
+        this.enviarEdicion()
+      }
+      this.miFormulario.reset();
+    } 
+    else {
+      this.miFormulario.markAllAsTouched();
+    }
+  }
+
+  async loadDataAll(): Promise<void> {
+    const recipes = await this.recipeService.getAllRecipes$().toPromise();
+    
+    if (recipes !== undefined) {
+      this.listResults = recipes;
+    } else {
+      console.error('No se pudieron cargar las recetas');
+      this.listResults = [];
+    }
   }
 
   editarReceta(recipe: any) {
@@ -59,6 +83,7 @@ export class AdminPageComponent implements OnInit, OnDestroy{
       nombre: recipe.name,
       description: recipe.description,
       imagePath: recipe.imagePath,
+      ingredientes: "",
       _id: recipe._id
     });
     console.log(this.miFormulario)
@@ -66,19 +91,29 @@ export class AdminPageComponent implements OnInit, OnDestroy{
   }
 
   async enviarEdicion() : Promise<any> {
-    const { nombre, description, ingredients, imagePath, _id } = this.miFormulario.value
-    await this.adminService.editRecipe$(nombre, description, ingredients, imagePath, _id).toPromise()
-    this.showEditFields = false;
-    this.loadDataAll()
+    try{
+      const { nombre, description, ingredientes, imagePath, _id } = this.miFormulario.value
+      await this.adminService.editRecipe$(nombre, description, ingredientes, imagePath, _id).toPromise()
+      this.showEditFields = false;
+      this.loadDataAll()
+    }
+    catch (error){
+      console.log(error)
+    }
   }
 
   async agregarRecipe() : Promise<any> {
-    const { nombre, description, ingredients, imagePath } = this.miFormulario.value
-
-    await this.adminService.addRecipe$(nombre, description, ingredients, imagePath).toPromise()
+    try{
+      const { nombre, description, ingredientes, imagePath } = this.miFormulario.value
+      await this.adminService.addRecipe$(nombre, description, ingredientes, imagePath).toPromise()
+      
+      this.showEditFields = false;
+      this.loadDataAll()
+    }
+    catch(error:any){
+      console.log(error.error.errors)
+    }
     
-    this.showEditFields = false;
-    this.loadDataAll()
   }
 
   async deleteRecipe(recipe:any) : Promise<any> {

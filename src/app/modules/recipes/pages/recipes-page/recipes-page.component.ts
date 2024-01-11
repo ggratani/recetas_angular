@@ -18,8 +18,17 @@ export class RecipesPageComponent {
     this.loadDataAll()
   }
 
-  async loadDataAll(): Promise<any> {
-    this.recipesTrending = await this.recipeService.getAllRecipes$().toPromise()
+  async loadDataAll(): Promise<void> {
+    const recipes = await this.recipeService.getAllRecipes$().toPromise();
+    
+    if (recipes !== undefined) {
+      this.recipesTrending = recipes;
+    } else {
+      console.error('No se pudieron cargar las recetas');
+      this.recipesTrending = [];
+    }
+
+    console.log(this.recipesTrending)
   }
 
   ngOnDestroy(): void {

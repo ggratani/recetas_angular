@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
 import { RecipeModel } from '@core/models/recipe.model';
 
 @Injectable({
@@ -12,25 +11,25 @@ import { RecipeModel } from '@core/models/recipe.model';
 export class SearchDetailService {
   private readonly URL = environment.api
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(private http: HttpClient) { }
 
-  searchRecipes$(term: string): Observable<RecipeModel[]> {
-    const token = this.cookieService.get('token');
-    return this.http.get<RecipeModel[]>(`${this.URL}/recipes?auth=${token}`)
+  searchById$(id: string): Observable<any> {
+    return this.http.get(`${this.URL}/api/buscar/${id}`)
       .pipe(
-        map((dataRaw: RecipeModel[]) => {
-          return dataRaw.filter(receta => receta.name.toLowerCase().includes(term.toLowerCase()));
-        })
-      );
-  }
-
-  searchById$(term: string): Observable<any> {
-    const token = this.cookieService.get('token');
-    return this.http.get<RecipeModel[]>(`${this.URL}/recipes?auth=${token}`)
-      .pipe(
-        map((dataRaw: RecipeModel[]) => {
-          console.log(dataRaw)
-          return dataRaw.filter(receta => receta._id == term);
+        map((data: any) => {
+          const { results } = data
+          const recipes: RecipeModel[] = results.map((recipeData: any) => {
+            return {
+              name: recipeData.nombre, 
+              description: recipeData.descripcion, 
+              ingredients: recipeData.ingredientes,
+              _id: recipeData._id,
+              imagePath: recipeData.img,
+              price: recipeData.precio
+            };
+          });
+  
+          return recipes
         })
       );
   }

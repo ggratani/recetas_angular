@@ -6,18 +6,20 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class SignupService {
   private readonly URL = environment.api
   constructor(private http: HttpClient) { }
 
-  public sendCredentials(email:string, password:string): Observable<any> {
+  public sendCredentials(email:string, password:string, nombre:string): Observable<any> {
 
     const body = {
       email,
-      password
+      password,
+      nombre,
+      "rol": "ADMIN_ROLE"
     }
     console.log("Send credentials")
     console.log(this.URL)
-    return this.http.post(`${this.URL}/api/auth/login`, body)
+    return this.http.post(`${this.URL}/api/signup`, body)
   }
 }

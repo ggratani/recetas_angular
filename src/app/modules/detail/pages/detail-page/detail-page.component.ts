@@ -10,6 +10,7 @@ import { Observable, firstValueFrom, of } from 'rxjs';
   templateUrl: './detail-page.component.html',
   styleUrls: ['./detail-page.component.css']
 })
+
 export class DetailPageComponent {
   constructor(private route: ActivatedRoute, private searchDetail : SearchDetailService) {
     this.route.params.subscribe(params => {
@@ -20,11 +21,13 @@ export class DetailPageComponent {
   }
 
   recipe: any = {}
+  isLoading: boolean = true;
 
   async receiveData(event: string): Promise<void> {
     console.log(event);
     const data = await firstValueFrom(this.searchDetail.searchById$(event));
     this.recipe = data[0];
+    this.isLoading = false
     console.log("filtro",this.recipe);
   }
   

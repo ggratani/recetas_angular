@@ -9,6 +9,10 @@ const routes: Routes = [
     loadChildren:() => import(`./modules/auth/auth.module`).then(m => m.AuthModule)
   },
   {
+    path: 'signup',
+    loadChildren:() => import(`./modules/signup/signup.module`).then(m => m.SignupModule)
+  },
+  {
     path: '',
     component: HomePageComponent,
     loadChildren:() => import(`./modules/home/home.module`).then(m => m.HomeModule),

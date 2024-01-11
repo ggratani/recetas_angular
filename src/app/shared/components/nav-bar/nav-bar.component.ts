@@ -34,11 +34,11 @@ export class NavBarComponent implements OnInit {
         icon: 'uil uil-search',
         router: ['/', 'history2']
       },
-      {
-        name: 'Favoritos',
-        icon: 'uil uil-chart',
-        router: ['/', 'favorites'],
-      },
+      // {
+      //   name: 'Favoritos',
+      //   icon: 'uil uil-chart',
+      //   router: ['/', 'favorites'],
+      // },
       {
         name: 'Administrar',
         icon: 'uil uil-chart',

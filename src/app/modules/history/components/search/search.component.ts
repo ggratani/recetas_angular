@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit {
       console.log(term)
     }
     else{
-      this.callbackData.emit("*******qsf@")
+      this.callbackData.emit("¬¬¬")
     }
   }
 

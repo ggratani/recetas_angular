@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -15,12 +15,14 @@ export class InjectSessionInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     try{
+      console.log("interceptor")
       const token = this.cookieService.get('token')
       let newRequest = request
       newRequest = request.clone(
         {
           setHeaders: {
-            authorization: `Bearer ${token}`
+            "Content-Type": "application/json",
+            token: `${token}`
           }
         }
       )

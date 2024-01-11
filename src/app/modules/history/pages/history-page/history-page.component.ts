@@ -23,7 +23,7 @@ export class HistoryPageComponent implements OnInit {
     console.log(event);
     const data = await firstValueFrom(this.searchService.searchRecipes$(event));
     this.listResults = data;
-    console.log("filtro",this.listResults);
+    // console.log("filtro",this.listResults);
   }
 
 }

@@ -1,6 +1,7 @@
   <section class="page-section clearfix">
     <div class="container" style="padding-top: 2rem;">
-      <div class="intro">
+      <div *ngIf="isLoading">Cargando...</div>
+      <div class="intro" *ngIf="!isLoading">
         <img appImgBroken [customImg]="'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png'" class="intro-img img-fluid mb-3 mb-lg-0 rounded" [src]="recipe.imagePath" [alt]="recipe.name" style="width: 50%;">
         <div class="intro-text left-0 bg-faded p-5 rounded" style="color: black;">
             <h2>{{recipe.name}}</h2>

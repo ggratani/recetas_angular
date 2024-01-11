@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { AuthService } from '@modules/auth/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { SignupService } from '@modules/signup/services/signup.service';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+  selector: 'app-signup-page',
+  templateUrl: './signup-page.component.html',
+  styleUrls: ['./signup-page.component.css']
 })
-export class LoginPageComponent implements OnInit {
+export class SignupPageComponent implements OnInit {
   errorSession: boolean = false
-  formLogin: FormGroup = new FormGroup({});
+  formSignup: FormGroup = new FormGroup({});
 
-  constructor(private authService:AuthService, private cookie: CookieService, 
+  constructor(private signUpService: SignupService, private cookie: CookieService, 
     private router:Router) {}
 
   ngOnInit(): void {
-    this.formLogin = new FormGroup(
+    this.formSignup = new FormGroup(
       {
         email: new FormControl('', [
           Validators.required,
@@ -27,14 +27,19 @@ export class LoginPageComponent implements OnInit {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(12)
+        ]),
+        name: new FormControl('', [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(12)
         ])
       }
     )
   }
 
-  sendLogin(): void {
-    const { email, password } = this.formLogin.value
-    this.authService.sendCredentials(email, password)
+  sendSignup(): void {
+    const { email, password, name } = this.formSignup.value
+    this.signUpService.sendCredentials(email, password, name)
       .subscribe(responseOk => { 
         const { token, usuario } = responseOk
         this.cookie.set('token', token, 1/24, '/')
@@ -43,7 +48,7 @@ export class LoginPageComponent implements OnInit {
       },
         err => {
           this.errorSession = true
-          console.log('Ocurrio error con el email o pass', err);
+          console.log('Ocurrio error', err);
         })
 
   }

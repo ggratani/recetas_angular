@@ -3,20 +3,20 @@ import { CommonModule } from '@angular/common';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { RouterModule } from '@angular/router';
 import { SectionGenericComponent } from './components/section-generic/section-generic.component';
-import { CardPlayerComponent } from './components/card-player/card-player.component';
+import { CardComponent } from './components/card/card.component';
 import { ImgBrokenDirective } from './directives/img-broken.directive';
 import { FilterListPipe } from './pipe/filter-list.pipe';
 import { DetailModule } from '@modules/detail/detail.module';
-import { PlayListBodyComponent } from './components/play-list-body/play-list-body.component';
+import { ListBodyComponent } from './components/list-body/list-body.component';
 
 @NgModule({
   declarations: [
     NavBarComponent,
     SectionGenericComponent,
-    CardPlayerComponent,
+    CardComponent,
     ImgBrokenDirective,
     FilterListPipe,
-    PlayListBodyComponent,
+    ListBodyComponent,
   ],
   imports: [
     CommonModule,
@@ -25,10 +25,10 @@ import { PlayListBodyComponent } from './components/play-list-body/play-list-bod
   exports:[
     NavBarComponent,
     SectionGenericComponent,
-    CardPlayerComponent,
+    CardComponent,
     ImgBrokenDirective,
     FilterListPipe,
-    PlayListBodyComponent,
+    ListBodyComponent,
   ]
 })
 export class SharedModule { }

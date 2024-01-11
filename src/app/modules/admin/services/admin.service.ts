@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RecipeModel } from '@core/models/recipe.model';
-import { CookieService } from 'ngx-cookie-service';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,46 +10,52 @@ export class AdminService {
 
   private readonly URL = environment.api;
 
-  constructor(private httpClient: HttpClient, private cookieService: CookieService) { }
+  constructor(private httpClient: HttpClient) { }
 
   editRecipe$(name:string, description:string, ingredients:string, imagePath:string, _id:string): Observable<any> {
-    const token = this.cookieService.get('token')
     const body = {
-      name,
-      description,
-      ingredients,
-      imagePath
+      "nombre": name,
+      "descripcion": description,
+      "ingredientes": ingredients,
+      "img": imagePath
     }
 
-    return this.httpClient.put(`${this.URL}/recipes/edit/${_id}?auth=${token}`, body)
+    return this.httpClient.put(`${this.URL}/api/recetas/editar/${_id}`, body)
     .pipe(
+      catchError((error: any) => {
+        console.error('Error al editar la receta:', error);
+        return throwError(error); 
+      }),
       map(({ data }: any) => {
-        console.log(data)
-        return data
+        console.log(data);
+        return data;
       })
-    )
+    );
   }
 
   addRecipe$(name:string, description:string, ingredients:string, imagePath:string): Observable<any> {
-    const token = this.cookieService.get('token')
     const body = {
-      name,
-      description,
-      ingredients,
-      imagePath
+      "nombre": name,
+      "descripcion": description,
+      "ingredientes": ingredients,
+      "img": imagePath
     }
-    return this.httpClient.post(`${this.URL}/recipes/add?auth=${token}`, body)
+    console.log(body)
+    return this.httpClient.post(`${this.URL}/api/recetas`, body)
     .pipe(
+      catchError((error: any) => {
+        console.error('Error al agregar la receta:', error);
+        return throwError(error); 
+      }),
       map(({ data }: any) => {
-        console.log(data)
-        return data
+        console.log(data);
+        return data;
       })
-    )
+    );
   }
 
   deleteRecipe$(id: any): Observable<any> {
-    const token = this.cookieService.get('token')
-    return this.httpClient.delete(`${this.URL}/recipes/delete/${id}?auth=${token}`)
+    return this.httpClient.delete(`${this.URL}/api/recetas/delete/${id}`)
     .pipe(
       // Mapear la respuesta y extraer los datos
       map(({ data }: any) => {

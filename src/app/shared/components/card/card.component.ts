@@ -3,13 +3,13 @@ import { RecipeModel } from '@core/models/recipe.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-card-player',
-  templateUrl: './card-player.component.html',
-  styleUrls: ['./card-player.component.css']
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.css']
 })
-export class CardPlayerComponent implements OnInit {
+export class CardComponent implements OnInit {
 
-  @Input() mode: 'small' | 'big' = "small";
+  @Input() mode: 'small' = "small";
   @Input() recipe!: RecipeModel;
 
 
@@ -22,6 +22,7 @@ export class CardPlayerComponent implements OnInit {
   }
 
   mostrarDetalle(recipe: any) {
+    console.log(recipe)
     console.log(recipe._id)
     this.router.navigate(['detail', recipe._id])
   }

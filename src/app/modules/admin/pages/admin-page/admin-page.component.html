@@ -1,19 +1,35 @@
-<div class="admin-page" style="color: black;">
+<!-- <div class="admin-page" style="color: black;">
     <div class="edit-component">
         <form [formGroup]="miFormulario" (ngSubmit)="onSubmit()">
             <div>
-              <label> Nombre:
-                <input formControlName="nombre" placeholder="Nombre de la receta">
-              </label>
+              <label> Nombre:</label>
+              <input formControlName="nombre" placeholder="Nombre de la receta">
+              <div *ngIf="f['nombre'].invalid && f['nombre'].dirty">
+                <div *ngIf="f['nombre'].errors?.['required']">El nombre es requerido.</div>
+                <div *ngIf="f['nombre'].errors?.['minlength']">El nombre debe tener al menos 5 caracteres.</div>
+              </div>
             </div>
             <div>
               <label> Descripción:
                 <input formControlName="description" placeholder="Descripción">
+                <div *ngIf="f['description'].invalid && f['description'].dirty">
+                    <div *ngIf="f['description'].errors?.['required']">El nombre es requerido.</div>
+                    <div *ngIf="f['description'].errors?.['minlength']">El nombre debe tener al menos 5 caracteres.</div>
+                </div>
               </label>
             </div>
             <div>
               <label> Imagen:
                 <input formControlName="imagePath" placeholder="Url imagen">
+              </label>
+            </div>
+            <div>
+              <label> Ingredientes:
+                <input formControlName="ingredientes" placeholder="ingredientes">
+                <div *ngIf="f['ingredientes'].invalid && f['ingredientes'].dirty">
+                  <div *ngIf="f['ingredientes'].errors?.['required']">El nombre es requerido.</div>
+                  <div *ngIf="f['ingredientes'].errors?.['minlength']">El nombre debe tener al menos 5 caracteres.</div>
+              </div>
               </label>
             </div>
             <div>
@@ -41,28 +57,81 @@
 
         </ul>
     </div>
+</div>-->
+
+<div class="admin-page container">
+  <div class="row edit-component">
+    <form [formGroup]="miFormulario" (ngSubmit)="onSubmit()" class="col-md-6">
+        <div class="form-group">
+            <label for="nombre" style="color: black;">Nombre:</label>
+            <input formControlName="nombre" id="nombre" class="form-control" placeholder="Nombre de la receta">
+            <div *ngIf="f['nombre'].invalid && f['nombre'].dirty">
+                <div *ngIf="f['nombre'].errors?.['required']" style="color: red;">El nombre es requerido.</div>
+                <div *ngIf="f['nombre'].errors?.['minlength']" style="color: red;">El nombre debe tener al menos 5 caracteres.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="descripcion" style="color: black;">Descripción:</label>
+            <input formControlName="description" id="descripcion" class="form-control" placeholder="Descripción">
+            <div *ngIf="f['description'].invalid && f['description'].dirty">
+                <div *ngIf="f['description'].errors?.['required']" style="color: red;">La descripción es requerida.</div>
+                <div *ngIf="f['description'].errors?.['minlength']" style="color: red;">La descripción debe tener al menos 10 caracteres.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="imagen" style="color: black;">Imagen:</label>
+            <input formControlName="imagePath" id="imagen" class="form-control" placeholder="URL de la imagen">
+        </div>
+        <div class="form-group">
+            <label for="ingredientes" style="color: black;">Ingredientes:</label>
+            <input formControlName="ingredientes" id="ingredientes" class="form-control" placeholder="Ingredientes">
+            <div *ngIf="f['ingredientes'].invalid && f['ingredientes'].dirty">
+                <div *ngIf="f['ingredientes'].errors?.['required']" style="color: red;">Los ingredientes son requeridos.</div>
+                <div *ngIf="f['ingredientes'].errors?.['minlength']" style="color: red;">Los ingredientes deben tener al menos 5 caracteres.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id" style="color: black;">ID:</label>
+            <input formControlName="_id" id="id" class="form-control" placeholder="ID" readonly>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+  </div>
+
+  <div class="list-body">
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+              <span>Nombre</span>
+              <span>Descripción</span>
+              <span>Editar/Eliminar</span>
+          </li>
+          <li class="list-group-item" *ngFor="let recipe of listResults">
+              <div class="d-flex justify-content-between align-items-center">
+                  <ng-container *ngTemplateOutlet="coverSection;context:{recipe:recipe}"></ng-container>
+                  <span class="name-recipe-details">{{recipe.description}}</span>
+                  <ng-container *ngTemplateOutlet="buttonSection;context:{recipe:recipe}"></ng-container>
+              </div>
+          </li>
+      </ul>
+  </div>
 </div>
 
-<!--template del cover-->
 <ng-template #coverSection let-recipe="recipe">
 
-    <div class="cover-section">
-        <img appImgBroken [customImg]="'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png'" class="cover-recipe" [src]="recipe.imagePath" [alt]="recipe.name">
-        <div class="cover-info">
-            <div class="name-recipe">{{recipe.name}}</div>
-            <div class="name-recipe-details">{{recipe.descripcion}}</div>
-        </div>
-    </div>
+  <div class="cover-section">
+      <img appImgBroken [customImg]="'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png'" class="cover-recipe" [src]="recipe.imagePath" [alt]="recipe.name">
+      <div class="cover-info">
+          <div class="name-recipe">{{recipe.name}}</div>
+      </div>
+  </div>
 
 </ng-template>
 
 <ng-template #buttonSection let-recipe="recipe">
 
-    <div class="button-section">
-        <button (click)="editarReceta(recipe)">Editar</button>
-    </div>
-    <div class="button-section">
-      <button (click)="deleteRecipe(recipe)">Eliminar</button>
-  </div>
+  <div class="button-section">
+    <button (click)="editarReceta(recipe)">Editar</button>
+    <button (click)="deleteRecipe(recipe)">Eliminar</button>
+</div>
 
-</ng-template>
+</ng-template> 

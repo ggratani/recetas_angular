@@ -73,6 +73,10 @@
               "browserTarget": "recetas:build:development"
             }
           },
+          "options": {
+            "browserTarget": "recetas:build",
+            "proxyConfig": "src/proxy.conf.json"
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {

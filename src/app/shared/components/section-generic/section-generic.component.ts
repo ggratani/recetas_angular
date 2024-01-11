@@ -9,9 +9,13 @@ import { RecipeModel } from '@core/models/recipe.model';
 
 export class SectionGenericComponent implements OnInit {
   @Input() title: string = ''
-  @Input() mode: 'small' | 'big' = 'small'
+  @Input() mode: 'small' = 'small'
   @Input() dataRecipes: Array<RecipeModel> = []
 
+  currentPage: number = 1;
+  pageSize: number = 4;
+  totalItems: number = 100; 
+  maxSize: number = 4;
   
   constructor() {
     

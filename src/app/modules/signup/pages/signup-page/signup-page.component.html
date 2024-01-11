@@ -1,7 +1,7 @@
 <div class="login-auth-page">
     <div class="login-auth-wrapper">
         <div class="separator"></div>
-        <form (ngSubmit)="sendLogin()" [formGroup]="formLogin" class="login-auth-form">
+        <form (ngSubmit)="sendSignup()" [formGroup]="formSignup" class="login-auth-form">
             <div class="form-group">
                 <label for="email">Dirección de correo o nombre de usuario</label>
                 <input formControlName="email" type="text" placeholder="Dirección de correo o nombre de usuario" class="form-input">
@@ -10,14 +10,14 @@
                 <label for="password">Contraseña</label>
                 <input formControlName="password" type="password" placeholder="Contraseña" class="form-input">
             </div>
-            <div class="form-steps">
-                <a class="link" href="/signup">¿No tiene cuenta? Registrese</a>
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input formControlName="name" type="text" placeholder="Nombre" class="form-input">
             </div>
             <div *ngIf="errorSession">
-                Ocurrio un error con el email o password
-            </div>
+                Ocurrio un error </div>
             <div class="form-action">
-                <button [disabled]="formLogin.invalid" class="login social-btn">Iniciar sesión</button>
+                <button [disabled]="formSignup.invalid" class="login social-btn">Iniciar sesión</button>
             </div>
         </form>
     </div>
